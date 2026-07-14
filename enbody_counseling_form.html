@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>enbody 事前カウンセリングシート</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F7F3EE;
+    --card:#FFFFFF;
+    --ink:#33302C;
+    --sub:#8A8378;
+    --line:#E7E0D6;
+    --accent:#9C8067;
+    --accent-soft:#EFE4DA;
+    --ok:#7C8B6F;
+    --danger:#B9584F;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Noto Sans JP',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    padding:0 0 48px;
+  }
+  .wrap{
+    width:100%;
+    max-width:480px;
+    padding:28px 20px 0;
+  }
+  header.top{
+    text-align:center;
+    margin-bottom:22px;
+  }
+  header.top .brand{
+    font-family:'Shippori Mincho',serif;
+    font-weight:700;
+    font-size:22px;
+    letter-spacing:0.08em;
+  }
+  header.top .sub{
+    margin-top:4px;
+    font-size:12.5px;
+    color:var(--sub);
+    letter-spacing:0.04em;
+  }
+  .progress{
+    margin:22px 0 26px;
+  }
+  .progress .label{
+    font-family:'Shippori Mincho',serif;
+    font-size:13px;
+    color:var(--sub);
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:8px;
+    letter-spacing:0.05em;
+  }
+  .progress .track{
+    height:3px;
+    background:var(--line);
+    border-radius:2px;
+    overflow:hidden;
+  }
+  .progress .fill{
+    height:100%;
+    background:var(--accent);
+    border-radius:2px;
+    transition:width .35s ease;
+  }
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:26px 22px 24px;
+    box-shadow:0 2px 14px rgba(60,50,40,0.05);
+  }
+  .step-title{
+    font-family:'Shippori Mincho',serif;
+    font-size:18px;
+    font-weight:700;
+    margin:0 0 4px;
+  }
+  .step-desc{
+    font-size:12.5px;
+    color:var(--sub);
+    margin:0 0 22px;
+    line-height:1.6;
+  }
+  .field{
+    margin-bottom:20px;
+  }
+  .field label.q{
+    display:flex;
+    align-items:baseline;
+    gap:6px;
+    font-size:14px;
+    font-weight:500;
+    margin-bottom:8px;
+  }
+  .req{
+    font-size:10.5px;
+    color:#fff;
+    background:var(--danger);
+    padding:2px 6px;
+    border-radius:4px;
+    letter-spacing:0.05em;
+    flex-shrink:0;
+  }
+  .opt{
+    font-size:10.5px;
+    color:var(--sub);
+    background:var(--accent-soft);
+    padding:2px 6px;
+    border-radius:4px;
+    letter-spacing:0.05em;
+    flex-shrink:0;
+  }
+  input[type=text], input[type=date], input[type=tel], textarea, select{
+    width:100%;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:11px 12px;
+    font-size:15px;
+    font-family:inherit;
+    color:var(--ink);
+    background:#FCFAF7;
+  }
+  input:focus, textarea:focus, select:focus{
+    outline:none;
+    border-color:var(--accent);
+    background:#fff;
+  }
+  textarea{
+    min-height:78px;
+    resize:vertical;
+  }
+  .hint{
+    font-size:11.5px;
+    color:var(--sub);
+    margin-top:6px;
+  }
+  .radio-row, .check-grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .pill{
+    position:relative;
+  }
+  .pill input{
+    position:absolute;
+    opacity:0;
+    width:100%;
+    height:100%;
+    margin:0;
+    cursor:pointer;
+  }
+  .pill span{
+    display:inline-block;
+    padding:9px 14px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    font-size:13.5px;
+    color:var(--ink);
+    background:#FCFAF7;
+    transition:all .15s ease;
+  }
+  .pill input:checked + span{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:#fff;
+  }
+  .check-grid .pill span{
+    border-radius:10px;
+  }
+  .sub-reveal{
+    margin-top:12px;
+    display:none;
+  }
+  .sub-reveal.show{
+    display:block;
+  }
+  .btn-row{
+    display:flex;
+    gap:10px;
+    margin-top:8px;
+  }
+  button{
+    font-family:inherit;
+    border:none;
+    border-radius:10px;
+    padding:14px 18px;
+    font-size:15px;
+    font-weight:500;
+    cursor:pointer;
+    letter-spacing:0.03em;
+  }
+  .btn-primary{
+    flex:1;
+    background:var(--accent);
+    color:#fff;
+  }
+  .btn-primary:disabled{
+    background:#D8CFC3;
+    cursor:not-allowed;
+  }
+  .btn-secondary{
+    background:transparent;
+    color:var(--sub);
+    border:1px solid var(--line);
+  }
+  .step{
+    display:none;
+  }
+  .step.active{
+    display:block;
+    animation:fadeIn .25s ease;
+  }
+  @keyframes fadeIn{
+    from{opacity:0; transform:translateY(6px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+  .error-msg{
+    font-size:12px;
+    color:var(--danger);
+    margin-top:6px;
+    display:none;
+  }
+  .error-msg.show{display:block;}
+  .confirm-list{
+    font-size:13.5px;
+    line-height:1.9;
+  }
+  .confirm-list dt{
+    color:var(--sub);
+    font-size:11.5px;
+    margin-top:12px;
+  }
+  .confirm-list dd{
+    margin:0;
+    font-weight:500;
+  }
+  .done{
+    text-align:center;
+    padding:30px 6px 10px;
+  }
+  .done .mark{
+    width:52px;height:52px;border-radius:50%;
+    background:var(--ok);
+    color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 18px;
+    font-size:26px;
+  }
+  .done h2{
+    font-family:'Shippori Mincho',serif;
+    font-size:19px;
+    margin:0 0 10px;
+  }
+  .done p{
+    font-size:13.5px;
+    color:var(--sub);
+    line-height:1.8;
+  }
+  .send-status{
+    font-size:12.5px;
+    color:var(--sub);
+    text-align:center;
+    margin-top:10px;
+    min-height:16px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">enbody</div>
+    <div class="sub">事前カウンセリングシート</div>
+  </header>
+
+  <div class="progress" id="progressWrap">
+    <div class="label"><span id="stepLabel">STEP 1 / 4</span><span id="stepName">基本情報</span></div>
+    <div class="track"><div class="fill" id="progressFill" style="width:25%"></div></div>
+  </div>
+
+  <div class="card">
+
+    <!-- STEP 1 -->
+    <section class="step active" data-step="1">
+      <p class="step-title">基本情報</p>
+      <p class="step-desc">来店前に、簡単な質問にご協力ください。所要時間は2〜3分ほどです。</p>
+
+      <div class="field">
+        <label class="q">お名前<span class="req">必須</span></label>
+        <input type="text" id="name" placeholder="例）山田 花子">
+        <div class="error-msg" id="err-name">お名前をご入力ください</div>
+      </div>
+
+      <div class="field">
+        <label class="q">生年月日<span class="req">必須</span></label>
+        <input type="date" id="birthday">
+        <div class="error-msg" id="err-birthday">生年月日をご入力ください</div>
+      </div>
+
+      <div class="field">
+        <label class="q">ご住所<span class="req">必須</span></label>
+        <textarea id="address" placeholder="郵便番号もあわせてご記入ください"></textarea>
+        <div class="error-msg" id="err-address">ご住所をご入力ください</div>
+      </div>
+    </section>
+
+    <!-- STEP 2 -->
+    <section class="step" data-step="2">
+      <p class="step-title">ご来店について</p>
+      <p class="step-desc">当ジムのことや、現在のお悩みについて教えてください。</p>
+
+      <div class="field">
+        <label class="q">当ジムを知ったキッカケ<span class="req">必須</span></label>
+        <div class="radio-row" id="triggerGroup">
+          <label class="pill"><input type="radio" name="trigger" value="口コミ"><span>口コミ</span></label>
+          <label class="pill"><input type="radio" name="trigger" value="Instagram広告"><span>Instagram広告</span></label>
+          <label class="pill"><input type="radio" name="trigger" value="Instagram(オーガニック)"><span>Instagram(投稿)</span></label>
+          <label class="pill"><input type="radio" name="trigger" value="HP"><span>HP</span></label>
+          <label class="pill"><input type="radio" name="trigger" value="その他"><span>その他</span></label>
+        </div>
+        <div class="sub-reveal" id="triggerOtherWrap">
+          <input type="text" id="triggerOther" placeholder="きっかけを教えてください">
+        </div>
+        <div class="error-msg" id="err-trigger">いずれか一つお選びください</div>
+      </div>
+
+      <div class="field">
+        <label class="q">気になる箇所・お悩み<span class="req">必須</span></label>
+        <textarea id="concern" placeholder="例）O脚が気になる、下半身が痩せにくい　など"></textarea>
+        <div class="error-msg" id="err-concern">気になる箇所をご入力ください</div>
+      </div>
+
+      <div class="field">
+        <label class="q">今通っている整体・エステなど<span class="req">必須</span></label>
+        <input type="text" id="currentCare" placeholder="なければ「特になし」とご記入ください">
+        <div class="error-msg" id="err-currentCare">「特になし」の場合もご記入ください</div>
+      </div>
+    </section>
+
+    <!-- STEP 3 -->
+    <section class="step" data-step="3">
+      <p class="step-title">過去の経験・お身体の状態</p>
+      <p class="step-desc">安全にサポートするための確認です。</p>
+
+      <div class="field">
+        <label class="q">今までパーソナルや整体を受けた事はありますか<span class="req">必須</span></label>
+        <div class="radio-row" id="personalExpGroup">
+          <label class="pill"><input type="radio" name="hasPersonalExp" value="YES"><span>YES</span></label>
+          <label class="pill"><input type="radio" name="hasPersonalExp" value="NO"><span>NO</span></label>
+        </div>
+        <div class="sub-reveal" id="personalExpNameWrap">
+          <input type="text" id="personalExpName" placeholder="名称をご記入ください">
+        </div>
+        <div class="error-msg" id="err-hasPersonalExp">いずれか一つお選びください</div>
+      </div>
+
+      <div class="field">
+        <label class="q">現在治療中の病気やお怪我はありますか<span class="req">必須</span></label>
+        <div class="radio-row" id="treatmentGroup">
+          <label class="pill"><input type="radio" name="hasTreatment" value="YES"><span>YES</span></label>
+          <label class="pill"><input type="radio" name="hasTreatment" value="NO"><span>NO</span></label>
+        </div>
+        <div class="sub-reveal" id="treatmentDetailWrap">
+          <input type="text" id="treatmentDetail" placeholder="内容をご記入ください">
+        </div>
+        <div class="error-msg" id="err-hasTreatment">いずれか一つお選びください</div>
+      </div>
+
+      <div class="field">
+        <label class="q">当てはまるものをお選びください（複数選択可）<span class="req">必須</span></label>
+        <div class="check-grid" id="checklistGroup">
+          <label class="pill"><input type="checkbox" value="疲れやすい"><span>疲れやすい</span></label>
+          <label class="pill"><input type="checkbox" value="便秘気味"><span>便秘気味</span></label>
+          <label class="pill"><input type="checkbox" value="冷え性"><span>冷え性</span></label>
+          <label class="pill"><input type="checkbox" value="睡眠の質が悪い"><span>睡眠の質が悪い</span></label>
+          <label class="pill"><input type="checkbox" value="肩凝り"><span>肩凝り</span></label>
+          <label class="pill"><input type="checkbox" value="猫背"><span>猫背</span></label>
+          <label class="pill"><input type="checkbox" value="胃腸が弱い"><span>胃腸が弱い</span></label>
+          <label class="pill"><input type="checkbox" value="腰痛"><span>腰痛</span></label>
+          <label class="pill"><input type="checkbox" value="偏頭痛"><span>偏頭痛</span></label>
+          <label class="pill"><input type="checkbox" value="生理痛が重い"><span>生理痛が重い</span></label>
+          <label class="pill"><input type="checkbox" value="膝痛"><span>膝痛</span></label>
+          <label class="pill"><input type="checkbox" value="足裏のコリ"><span>足裏のコリ</span></label>
+          <label class="pill"><input type="checkbox" value="特になし"><span>特になし</span></label>
+        </div>
+        <div class="error-msg" id="err-checklist">一つ以上お選びください（なければ「特になし」）</div>
+      </div>
+    </section>
+
+    <!-- STEP 4 -->
+    <section class="step" data-step="4">
+      <p class="step-title">その他（任意）</p>
+      <p class="step-desc">分かる範囲で構いません。空欄のまま次に進めます。</p>
+
+      <div class="field">
+        <label class="q">現在行っている運動<span class="opt">任意</span></label>
+        <input type="text" id="exercise" placeholder="例）ヨガ、ウォーキング　など">
+      </div>
+
+      <div class="field">
+        <label class="q">今までの運動経験<span class="opt">任意</span></label>
+        <textarea id="exerciseHistory" placeholder="例）中学までバレエ、社会人後は特になし　など"></textarea>
+      </div>
+
+      <div class="field">
+        <label class="q">職業<span class="opt">任意</span></label>
+        <input type="text" id="job" placeholder="例）会社員（事務職）">
+      </div>
+
+      <div class="field">
+        <label class="q">お酒（週あたりの回数）<span class="opt">任意</span></label>
+        <input type="text" id="alcohol" placeholder="例）週2回、飲まない　など">
+      </div>
+    </section>
+
+    <!-- STEP 5: confirm -->
+    <section class="step" data-step="5">
+      <p class="step-title">送信内容のご確認</p>
+      <p class="step-desc">内容をご確認のうえ、送信してください。</p>
+      <dl class="confirm-list" id="confirmList"></dl>
+    </section>
+
+    <!-- DONE -->
+    <section class="step" data-step="done">
+      <div class="done">
+        <div class="mark">✓</div>
+        <h2>送信しました</h2>
+        <p>ご回答ありがとうございました。<br>ご来店時、スタッフが内容を確認のうえ<br>スムーズにご案内いたします。</p>
+      </div>
+    </section>
+
+    <div class="btn-row" id="btnRow">
+      <button class="btn-secondary" id="backBtn" style="display:none">戻る</button>
+      <button class="btn-primary" id="nextBtn">次へ</button>
+    </div>
+    <div class="send-status" id="sendStatus"></div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   送信先設定：GoogleスプレッドシートのWebアプリURLをここに入れてください
+   （手順書の通りに発行したURLを "GAS_URL" の文字列部分に貼り付けます）
+   ============================================================ */
+const GAS_URL = "https://script.google.com/macros/s/AKfycby4h-hkGDK4v9opElqMh3Q-g0fFgWyLle2lj-_q3o0AmRpxW3oWXj6CEtK7Ok27o1lT/exec";
+
+const steps = [1,2,3,4,5];
+const stepNames = {1:"基本情報",2:"ご来店について",3:"お身体の状態",4:"その他（任意）",5:"確認"};
+let current = 0;
+
+const stepEls = document.querySelectorAll('.step[data-step]');
+const nextBtn = document.getElementById('nextBtn');
+const backBtn = document.getElementById('backBtn');
+const progressFill = document.getElementById('progressFill');
+const stepLabel = document.getElementById('stepLabel');
+const stepName = document.getElementById('stepName');
+const progressWrap = document.getElementById('progressWrap');
+
+function showStep(idx){
+  stepEls.forEach(el=>el.classList.remove('active'));
+  const target = document.querySelector('.step[data-step="'+steps[idx]+'"]');
+  target.classList.add('active');
+  progressFill.style.width = (((idx+1)/steps.length)*100)+'%';
+  stepLabel.textContent = 'STEP '+(idx+1)+' / '+steps.length;
+  stepName.textContent = stepNames[steps[idx]];
+  backBtn.style.display = idx===0 ? 'none' : 'inline-block';
+  nextBtn.textContent = idx===steps.length-1 ? '送信する' : '次へ';
+}
+
+function clearErrors(scope){
+  scope.querySelectorAll('.error-msg').forEach(e=>e.classList.remove('show'));
+}
+
+function validateStep(n){
+  clearErrors(document.querySelector('.step[data-step="'+n+'"]'));
+  let ok = true;
+  if(n===1){
+    if(!document.getElementById('name').value.trim()){ document.getElementById('err-name').classList.add('show'); ok=false; }
+    if(!document.getElementById('birthday').value){ document.getElementById('err-birthday').classList.add('show'); ok=false; }
+    if(!document.getElementById('address').value.trim()){ document.getElementById('err-address').classList.add('show'); ok=false; }
+  }
+  if(n===2){
+    if(!document.querySelector('input[name=trigger]:checked')){ document.getElementById('err-trigger').classList.add('show'); ok=false; }
+    if(!document.getElementById('concern').value.trim()){ document.getElementById('err-concern').classList.add('show'); ok=false; }
+    if(!document.getElementById('currentCare').value.trim()){ document.getElementById('err-currentCare').classList.add('show'); ok=false; }
+  }
+  if(n===3){
+    if(!document.querySelector('input[name=hasPersonalExp]:checked')){ document.getElementById('err-hasPersonalExp').classList.add('show'); ok=false; }
+    if(!document.querySelector('input[name=hasTreatment]:checked')){ document.getElementById('err-hasTreatment').classList.add('show'); ok=false; }
+    if(document.querySelectorAll('#checklistGroup input:checked').length===0){ document.getElementById('err-checklist').classList.add('show'); ok=false; }
+  }
+  return ok;
+}
+
+// トグル表示：その他/YESを選んだら詳細欄を出す
+document.querySelectorAll('input[name=trigger]').forEach(r=>{
+  r.addEventListener('change', ()=>{
+    document.getElementById('triggerOtherWrap').classList.toggle('show', r.value==='その他' && r.checked);
+  });
+});
+document.querySelectorAll('input[name=hasPersonalExp]').forEach(r=>{
+  r.addEventListener('change', ()=>{
+    document.getElementById('personalExpNameWrap').classList.toggle('show', r.value==='YES' && r.checked);
+  });
+});
+document.querySelectorAll('input[name=hasTreatment]').forEach(r=>{
+  r.addEventListener('change', ()=>{
+    document.getElementById('treatmentDetailWrap').classList.toggle('show', r.value==='YES' && r.checked);
+  });
+});
+
+function collectData(){
+  const checklist = Array.from(document.querySelectorAll('#checklistGroup input:checked')).map(c=>c.value).join('、');
+  return {
+    name: document.getElementById('name').value.trim(),
+    birthday: document.getElementById('birthday').value,
+    address: document.getElementById('address').value.trim(),
+    trigger: (document.querySelector('input[name=trigger]:checked')||{}).value || '',
+    triggerOther: document.getElementById('triggerOther').value.trim(),
+    concern: document.getElementById('concern').value.trim(),
+    currentCare: document.getElementById('currentCare').value.trim(),
+    hasPersonalExp: (document.querySelector('input[name=hasPersonalExp]:checked')||{}).value || '',
+    personalExpName: document.getElementById('personalExpName').value.trim(),
+    hasTreatment: (document.querySelector('input[name=hasTreatment]:checked')||{}).value || '',
+    treatmentDetail: document.getElementById('treatmentDetail').value.trim(),
+    checklist: checklist,
+    exercise: document.getElementById('exercise').value.trim(),
+    exerciseHistory: document.getElementById('exerciseHistory').value.trim(),
+    job: document.getElementById('job').value.trim(),
+    alcohol: document.getElementById('alcohol').value.trim()
+  };
+}
+
+function renderConfirm(){
+  const d = collectData();
+  const rows = [
+    ['お名前', d.name],
+    ['生年月日', d.birthday],
+    ['ご住所', d.address],
+    ['来店のきっかけ', d.trigger + (d.triggerOther? '（'+d.triggerOther+'）':'')],
+    ['気になる箇所', d.concern],
+    ['通っている整体等', d.currentCare],
+    ['パーソナル/整体経験', d.hasPersonalExp + (d.personalExpName? '（'+d.personalExpName+'）':'')],
+    ['治療中の病気・怪我', d.hasTreatment + (d.treatmentDetail? '（'+d.treatmentDetail+'）':'')],
+    ['当てはまる項目', d.checklist || 'なし'],
+    ['現在の運動', d.exercise || '（未記入）'],
+    ['運動経験', d.exerciseHistory || '（未記入）'],
+    ['職業', d.job || '（未記入）'],
+    ['お酒', d.alcohol || '（未記入）']
+  ];
+  const list = document.getElementById('confirmList');
+  list.innerHTML = rows.map(r=>'<dt>'+r[0]+'</dt><dd>'+(r[1]||'（未記入）').replace(/</g,'&lt;')+'</dd>').join('');
+}
+
+function submitForm(){
+  const status = document.getElementById('sendStatus');
+  nextBtn.disabled = true;
+  backBtn.style.display = 'none';
+  status.textContent = '送信しています…';
+
+  const data = collectData();
+  const body = new URLSearchParams(data);
+
+  fetch(GAS_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    body: body
+  }).then(()=>{
+    finishSuccess();
+  }).catch(()=>{
+    // no-cors では詳細なエラーは取得できないため、通信失敗時のみここに来る
+    status.textContent = '送信に失敗しました。電波の良い場所でもう一度お試しください。';
+    nextBtn.disabled = false;
+  });
+}
+
+function finishSuccess(){
+  progressWrap.style.display = 'none';
+  document.getElementById('btnRow').style.display = 'none';
+  document.getElementById('sendStatus').textContent = '';
+  stepEls.forEach(el=>el.classList.remove('active'));
+  document.querySelector('.step[data-step="done"]').classList.add('active');
+}
+
+nextBtn.addEventListener('click', ()=>{
+  const n = steps[current];
+  if(n<=4 && !validateStep(n)) return;
+
+  if(current === steps.length-1){
+    submitForm();
+    return;
+  }
+  current++;
+  if(steps[current]===5){ renderConfirm(); }
+  showStep(current);
+  window.scrollTo({top:0, behavior:'smooth'});
+});
+
+backBtn.addEventListener('click', ()=>{
+  if(current>0){
+    current--;
+    showStep(current);
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+});
+
+showStep(current);
+</script>
+</body>
+</html>
